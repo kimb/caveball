@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<TITLE>T3 - Asennusohje</TITLE>
+<style> p { width: 40em; } </style>
+</HEAD>
+<BODY>
+<H1>T3 - projekti</H1>
+<A href="index.html"><P>P‰‰sivu</A>
+<p>
+Ohjelma on ajettava kun valitussa hakemistossa on build hakemisto, jonka sis‰ll‰ on:
+<ul>
+	<li>
+	classes-hakemisto, jossa oleva l‰hdekoodi on k‰‰nnetty
+	</li>
+	<li>
+	maps-hakemiste, joka sis‰t‰‰ kartat
+	</li>
+	<li>
+	libs-hakemisto, jossa on tarvittavat kirjastot
+	</li>
+</ul>
+</p>
+<p>
+K‰yt‰nnˆss‰ t‰m‰ tarkoittaa, ett‰ t‰ytyy k‰‰nt‰‰ gui/Launcher.java-tiedoston
+ja on lis‰nnyt classes ja libs hakemiston CLASSPATH-muuttujaan.
+</p>
+K‰yt‰nnˆss‰ t‰m‰ tarkoittaa, ett‰ lataa bouncer.jar-tiedoston ja ajaa seuraavat
+komennot:
+<pre>
+jar xvf bouncer.jar
+cd build/classes/
+setenv CLASSPATH ${CLASSPATH}:.:../libs/log4j.jar
+javac gui/Launcher.java
+cd ../..
+setenv CLASSPATH ${CLASSPATH}:.:build/classes:build/libs/log4j.jar
+java gui.Launcher	
+</pre>
+
+</BODY>
+</HTML>

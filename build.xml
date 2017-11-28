@@ -1,0 +1,188 @@
+<project name="caveball" default="compile" basedir="../">
+	
+	<property name="src.home" value="${basedir}/caveball/src"/>
+	<property name="maps.home" value="${basedir}/caveball/maps"/>
+	<property name="libs.home"  value="${basedir}/caveball/libs"/>
+	<property name="html.home"  value="${basedir}/caveball/doc/html"/>
+	<property name="build.home" value="${basedir}/build"/>
+	<property name="www.dest" value="${basedir}/bouncer"/>
+	<property name="javadoc.dest"  value="${basedir}/doc"/>
+	
+	<path id="compile.classpath">
+		<pathelement location="${build.home}/classes"/>
+		<pathelement location="${libs.home}/log4j.jar"/>
+		<pathelement location="${libs.home}/commons-beanutils.jar"/>
+		<pathelement location="${libs.home}/commons-collections-3.0.jar"/>
+		<pathelement location="${libs.home}/commons-logging.jar"/>
+	</path>
+	
+	<property name="compile.debug"       value="true"/>
+	<property name="compile.deprecation" value="true"/>
+	<property name="compile.optimize"    value="true"/>
+	
+	
+	
+	<!-- ==================== All Target ====================================== -->
+	<target name="all" depends="clean,compile"
+		description="Clean build and dist directories, then compile"/>
+	
+	<!-- ==================== Clean Target ==================================== -->
+	<target name="clean"
+		description="Delete old build and dist directories">
+		<delete dir="${build.home}"/>
+	</target>
+	
+	<!-- ==================== Compile Target ================================== -->
+	<target name="compile" depends=""
+		description="Compile Java sources">
+		<!-- Compile Java classes as necessary -->
+		<mkdir    dir="${build.home}"/>
+		<mkdir    dir="${build.home}/classes"/>
+		<javac srcdir="${src.home}"
+			destdir="${build.home}/classes"
+			debug="${compile.debug}"
+			deprecation="${compile.deprecation}"
+			optimize="${compile.optimize}">
+			<classpath refid="compile.classpath"/>
+		</javac>
+		<!-- Copy application resources -->
+		<copy  todir="${build.home}/classes">
+			<fileset dir="${src.home}" excludes="**/*.java"/>
+		</copy>
+		<mkdir    dir="${build.home}/maps"/>
+		<copy  todir="${build.home}/maps">
+			<fileset dir="${maps.home}" />
+		</copy>
+	</target>
+	
+	
+	<!-- ================= html Target ======================================-->
+	<target name="html" depends=""
+		description="Create www-page">
+		<delete dir="${www.dest}"/>
+		<!-- staattiset osat -->
+		<mkdir          dir="${www.dest}"/>
+		<copy  todir="${www.dest}">
+			<fileset dir="${html.home}" />
+		</copy>
+		<!-- javadocit -->
+		<mkdir          dir="${www.dest}/javadoc"/>
+		<copy  todir="${www.dest}/javadoc">
+			<fileset dir="${javadoc.dest}" />
+		</copy>
+		<!-- jar-tiedosto -->
+		<mkdir          dir="${www.dest}/jar/build/classes"/>
+		<copy  todir="${www.dest}/jar/build/classes">
+			<fileset dir="${src.home}" />
+		</copy>
+		<mkdir          dir="${www.dest}/jar/build/maps"/>
+		<copy  todir="${www.dest}/jar/build/maps">
+			<fileset dir="${maps.home}" />
+		</copy>
+		<mkdir          dir="${www.dest}/jar/build/libs"/>
+		<copy  todir="${www.dest}/jar/build/libs">
+			<fileset file="${libs.home}/log4j.jar" />
+		</copy>
+		<jar 
+			destfile="${www.dest}/bouncer.jar"
+			basedir="${www.dest}/jar"
+			/>
+		<chmod dir="${www.dest}" perm="ugo+rx" 
+			includes="**"/>
+			
+		<!-- thats all -->
+		<echo message="Remember to copy the target to public_html"/>
+	</target>
+	
+
+	<!-- =============== Javadoc Target ================================== -->
+	<target name="javadoc" depends="compile"
+		description="Create Javadoc API documentation">
+		<mkdir          dir="${javadoc.dest}"/>
+		<javadoc sourcepath="${src.home}"
+			destdir="${javadoc.dest}"
+			packagenames="test,gui.*,graphics.*,core.*,physics.*,network.*,util.*,vectorizer.*"
+			doctitle="Caveball API documentation">
+			<classpath refid="compile.classpath"/>
+			<link href="http://java.sun.com/j2se/1.4/docs/api/"/>
+			<link href="http://jakarta.apache.org/struts/api/"/>
+			<link href="http://jakarta.apache.org/commons/logging/api/"/>
+			<link href="http://jakarta.apache.org/commons/beanutils/api/"/>
+			<link href="http://jakarta.apache.org/log4j/docs/api/"/>
+			<link href="http://jakarta.apache.org/tomcat/tomcat-5.0-doc/jspapi/"/>
+		</javadoc>
+		
+	</target>
+
+	
+	<!-- ==================== test Target ================================== -->
+	<target name="test" depends="compile">
+		<java classname="gui.BasicGui"
+			fork="true">
+			<classpath refid="compile.classpath"/>
+		</java>
+	</target>
+
+	<target name="gui" depends="compile">
+		<java classname="gui.Launcher"
+			fork="true">
+			<classpath refid="compile.classpath"/>
+		</java>
+	</target>
+
+	<target name="vtest" depends="compile">
+		<java classname="vectorizer.Debuggaus" 
+			fork="true"
+			maxmemory="100m">
+			<classpath refid="compile.classpath"/>
+		</java>
+	</target>
+
+	<target name="searchtest" depends="compile">
+		<java classname="test.SearchTest"
+			fork="true">
+			<classpath refid="compile.classpath"/>
+		</java>
+	</target>
+
+	<target name="clienttest" depends="compile">
+		<java classname="test.ClientTest"
+			fork="true">
+			<classpath refid="compile.classpath"/>
+		</java>
+	</target>
+
+	<target name="servertest" depends="compile">
+		<java classname="test.ServerTest"
+			fork="true">
+			<classpath refid="compile.classpath"/>
+		</java>
+	</target>
+
+	<!-- ==================== argo Target ================================== -->
+	<target name="argo" >
+		<java jar="${libs.home}/argouml.jar" fork="true">
+			<arg value="-noedem"/>
+			<arg value="-nopreload"/>
+			<arg value="${user.home}/java/caveball/caveball/doc/architecture.zargo"/>
+			<classpath>
+				<pathelement location="${libs.home}" />
+			</classpath>
+		</java>
+	</target>
+	
+	
+	<target name="help">
+		<echo message="usage:"/>
+		<echo message="---------------------------------------------------"/>
+		<echo message=" ant TARGET"/>
+		<echo message=""/>
+		<echo message="Basic targets:"/>
+		<echo message="      test       - run development interface"/>
+		<echo message="      clean      - clean all classes"/>
+		<echo message="      all        - build all from scratch"/>
+		<echo message="      javadoc    - documentation"/>
+		<echo message="      argo       - Start the argoUml-editor"/>
+		<echo message="---------------------------------------------------"/>
+	</target>
+</project>

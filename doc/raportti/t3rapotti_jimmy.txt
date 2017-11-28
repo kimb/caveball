@@ -1,0 +1,31 @@
+Arviointi projektisuunnitelman hyvyydestä
+
+Suunnitelmassa ollut verkko-osan kuvaus toimi lähtökohtana varsinaiselle toteutukselle. Kuvaus oli kuitenkin suppeahko ja kuvasi verkkotoimintojen osat vain pääpiirteissään, joten siihen tarvittiin lisäyksiä ennen ohjelmoinnin aloittamista. Toteutuksessa käytettiin mm. useita eri kuuntelijoita (listeners), joita ei projektisuunnitelman arkkitehtuuriluonnoksessa oltu mainittu. Eri rajapintoja suunniteltiin muutenkin lisää, ja lopullinen arkkitehtuuri onkin huomattavasti monimutkaisempi kuin alkuperäisessä suunnitelmassa. Verkko-osan rungon perusarkkitehtuuri noudattee kuitenkin pääpiirteissään alkuperäistä suunitelmaa.
+
+
+Kriittinen arviointi
+
+Koska itselläni ei ollut aikaisempaa kokemusta verkko-ohjelmoinnista, eikä kovinkaan mittavaa ohjelmointikokemusta Java-kielellä, kului uusien asioiden opettelemiseen kohtalaisen paljon aikaa. Projektin loppuvaiheessa jouduttiinkin hieman tinkimään verkko-osan vaatimuksista, koska aika kävi vähiin. Suurimman osan ohjelmointityöstä tein pääsiäisloman aikana, ja jälkikäteen arvioituna olisi toteuttaminen ehkä ollut syytä aloittaa aikaisemmin. Raporttia kirjoitettaessa ei suunnitelmassa mainittua UDP-protokollaan perustuvaa tiedonsiirtoa oltu toteutettu toimivasti, lisäksi mm. dokumentoinnissa ja virhetilanteiden käsittelyssä olisi parantamisen varaa.
+Sunnitelmassa mainitut riskit liittyen aikatauluun ja uusiin tekniikoihin kävivät siis omalla kohdallani toteen.
+Alunperin ajateltu verkko-osan "itsenäisyys" eli käyttökelpoisuus jatkossa muissa ohjelmistoissa toteutui osittain, sillä tiedonsiirtoon käytettävät osat ja kuuntelijoihin perustuva arkkitehtuuri on siirrettävissä myös muunlaisiin ympäristöihin. Tiedonsiirtoluokkia käyttävä ja kuuntelijarajapinnat toteuttava verkon osa on lähemmässä vuorovaikutuksessa ohjelman kontrolleriosan kanssa, joten sen siirrettävyys suoraan muihin toteutuksiin on hieman huonompi.
+
+
+Toteutunut ajankäyttö (arvio)
+
+Viikko	12-14	10 h	Suunnittelua ja toteutuksen aloittelua
+15	25 h	Ohjelmointia (ja vähän suunnittelua)
+16	25 h	Ohjelmointia, lisäksi raportin kirjoittamista
+
+Aikaa kului erityisesti suunnitteluun ja verkko-osan toiminnan ymmärtämiseen ohjelmoinnin ohessa. Alussa myös Javan tietoliikenneominaisuuksien soveltamisen opettelemiseen kului oma aikansa. Lisäksi mm. dokumentointi varsinaisen ohjelmakoodin kirjoittamisen lomassa vei aikaa jonkin verran. 
+
+
+Mitä opimme -osio
+
+Verkko-osaa tehdessäni opin ensinnäkin verkko-ohjelmointia Javalla, eli tietoliikenneominaisuudet toteuttavien luokkien (esim. Socket-luokkien) käyttämistä sekä client/server-mallin toteuttamista. Verkko-ohjelmointiin liityi myös säikeiden käyttö ja rinnakkaisohjelmointi, joiden opetteluun kului jonkin verran aikaa. Lisäksi opin verko-osassa käytetyn kuuntelija-arkkitehtuurin soveltamista. Suunnitelmaan kirjatut oppimistavoitteet siis toteutuivat osaltani.
+Lisäksi huomasin, että asioiden opettelemiseen kului enemmän aikaa kuin olin ajatellut. Olisi siis syytä aloittaa toteuttaminen ajoissa, koska loppuvaiheessa ohjelmavirheiden korjaamisessakin kuluu oma aikansa.
+
+
+Ohjelmiston arkkitehtuurinen sanallinen ja UML-esitys
+
+	Tulossa ...
+

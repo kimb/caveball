@@ -1,0 +1,33 @@
+päivä	tuntia	työ
+25.3	1	Ideointia
+3.3	1	Suunnittelua
+10.3	1	Suunnittelua
+18.3	2	GameData:n tukiluokkien toteutus	
+17.3	3	Projektin suunnittelua ja projektisuunnitelman laatimista
+	4	Suunnitelman kirjoittamista
+18.3	3	Suunnitelman tekemistä
+20.3	8	Suunnitelman tekemistä
+21.3	1	Suunnitelman viimeistely
+23.3	4	Suunnittelua ja rajapintojen toteutusta
+25.3	2	
+26.3	4
+29.3	2	Koodausta
+30.3	6	Grafiikkaa
+03.4	3	Grafiikkaa ja kontrolleri
+04.4	5	Koodausta
+06.4	3	Koodausta
+08.4	4	Koodausta
+10.4	10	Fysiikka ja grafiikan debuggaaminen toimintaan.
+11.4	12	Käyttöliittymä ja debuggaus.
+12.4	6	Käyttöliittymä
+13.4	9 	Käyttöliittymä ja kontrolleri
+14.4	14	Raportti.
+
+yhteensä (ainaskin) 108h
+
+15.4	4
+16.4	4
+17.4	12
+18.4	4
+19.4	8
+20.4	10

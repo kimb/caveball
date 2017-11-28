@@ -1,0 +1,326 @@
+
+Ryhmän numero. Kerrotaan ryhmälle viimeistään suunnitelman
+palautetilaisuudessa. 
+
+***
+41
+
+
+URL ohjelmakoodiin. Katso alempi pallukkalista.
+
+***
+www.niksula.cs.hut.fi/~koblomqv/ 
+
+---
+
+
+Arviointi projektisuunnitelman hyvyydestä ja/tai paikkansapitävyydestä
+sekä siihen tarvitut muutokset. 
+
+Projektisuunnitelman pitävyys
+*******
+
+Projektisuunnitelma piti paikkansa ohjelman yleisrakenteen osalta.
+Arkitehtuurin ydin controller ja sen riippuvuudet muihin komponentteihin
+pysyivät koko kehityksen ajan vakaina. Suunnitelmassa esitellyt
+arkitehtuuriratkaisut eivät olleet ongelma, ainoastaan toteutuksen vaatima
+työmäärä ylitti arvion. Laajennettavuuden rajaaminen olisi nopeuttanut
+kehitystä, mutta selvien rajapintojen puute olisi rikkonut projektin
+laajennettavus-vaatimuksen.
+
+T:
+Fysiikan toteutuksen osalta työskentely eteni projektisuunnitelman mukaisesti.
+Ainoastaan loppupuolella esiintyneet fysiikkaosan bugit aiheuttivat sen, että
+suunnitelmassa olevaa tavoitetta pallojen välisistä törmäyksistä ei ehditty
+kokonaan täyttää tämän raportin kirjoittamiseen mennessä.
+
+A:
+Vectorizerin ja GameMapin osalta suunnitelma onnistui mukavasti. Ensimmäiset
+versiot olivat triviaaleja, eli Vectorizer palautti 4 seinävektoria, jotka
+kiersivät kenttää ulkoreunoja pitkin. Samoin GameMap palautti kaikki
+mahdolliset vektorit. Lopullinen versio suoriutuu kiitettävästi
+vektorisoinnista.
+
+K:
+Grafiikkan toteutus oli suoraviivaista ja nopeaa, suunnitelmassa esitelty
+arkkitehtuuri toimi mainiosti. Suorituskyky oli heti tavittavalla tasolla,
+joten mitään optimointia ei tarvittu.
+
+Käyttöliittymän toteutusta ei suunnitelmassa oltu tarkasti määritelty. Se ei
+kuitenkaan haitannut, koska sen tekijällä on tarpeeksi kokemusta asiasta.
+
+J:
+Suunnitelmassa ollut verkko-osan kuvaus toimi lähtökohtana varsinaiselle
+toteutukselle. Kuvaus oli kuitenkin suppeahko ja kuvasi verkkotoimintojen osat
+vain pääpiirteissään, joten siihen tarvittiin lisäyksiä ennen ohjelmoinnin
+aloittamista. Toteutuksessa käytettiin mm. useita eri kuuntelijoita
+(listeners), joita ei projektisuunnitelman arkkitehtuuriluonnoksessa oltu
+mainittu. Eri rajapintoja suunniteltiin muutenkin lisää, ja lopullinen
+arkkitehtuuri onkin huomattavasti monimutkaisempi kuin alkuperäisessä
+suunnitelmassa. Verkko-osan rungon perusarkkitehtuuri noudattee kuitenkin
+pääpiirteissään alkuperäistä suunitelmaa.
+
+
+-----
+
+Kriittinen arviointi omasta työskentelystä sekä projektin tavoitteiden
+saavuttamisesta. 
+
+Kriittinen arviointi
+***
+
+Yleensä ottaen yhdessä työskentelyyn ei löytynyt sopivaa aikaa, joten
+jouduttiin koodaamaan yksinään, eikä pystytty antamaan toisille neuvoja ja
+apua siinä määrin kuin sitä olisi ehkä tarvittu. Tämän ja henkilökohtaisten
+aikataulujen kireyden takia ei kaikkia projektin aiheessa mainittuja asioita
+saatu toteutettua ennen projektisuunnitelman palauttamista.
+
+Vaikka suunnitelmassa todettiin, että tiukan aikataulun pitämiseen vaaditaan
+hyvä ryhmän sisäinen kommunikointi, ei tämä selvästikkään riittänyt, vaan
+vasta yhdessä täyspäiväinen koodaaminen alkoi tuottaa riittävää edistymistä.
+
+T:
+Ohjelman fysiikan toteutuksessa tärkeimmät tavoitteet newtonilaisen fysiikan
+sekä seinätörmäysten implementoimiseen saavutettiin. Vaikka törmäyslaskentaan
+tutustuttiin etukäteen lukemalla aiheeseen liittyviä kirjoituksia
+internetistä, eivät valmiit metodit ja kaavat pudonneet syliin yhtä helposti
+hakukoneen avulla, vaan ne piti tehdä itse. Laskutoimitusten kehittäminen
+tyhjästä oli yllättävän haastavaa, mutta silti luultavasti harjoitustyön
+antoisin osa. Suunnitteluvaiheesta suurin osa ajasta kului erilaisten
+seinätörmäystarkistusten kehittämiseen ja vertailuun, mikä oli yllättävän
+miellyttävää, kaikkien toteustapojen vielä oltua avoinna. Tavoitteena oli
+saada aikaan mahdollisimman tehokas törmäystarkistus, ja siinä
+onnistuttiinkin, ottamalla laskuissa huomioon mahdollisimman vähän seiniä.
+
+Matka teoriasta käytäntöön on pitkä, ja varsinaisen törmäystoteuksen
+koodaaminen osoittautui vaikeaksi, johtui se sitten vähäisestä
+ohjelmointikokemuksesta tai liian tiukasta aikataulusta. Ensimmäisissä
+testeissä, jotka toteutettiin vasta kun seinätörmäysfysiikka oli olevinaan
+valmiiksi koodattu, havaittiin lukuisia ongelmia (kiihtyvyyden puute, seinien
+havaitsematta jättäminen). Tämä ei ollut yllätys, sillä oli varauduttu siihen
+ettei kaikki ensimmäisellä kerralla toimi. Mutta debuggaus olikin oletettua
+raskaampaa, ja vasta parin täysipäiväisen debuggaus -session jälkeen saatiin
+seiniintörmäystarkistukset siedettävään kuntoon. Tätä kirjoittaessa kaikkia
+seinätörmäyksiä ei havaita täydellisesti, ja pientä fysiikkamoottorin
+nikottelua esiintyy, mutta kokonaisuudessaan järjestelmä täyttää sille
+aseitetut tavoitteet. Ainoastaan partikkelien keskenäisien törmäysten
+tarkistusta ei ehditty toteuttaa debuggauksesta johtuneen aikapulan takia.
+
+A:
+Vectorizer:ia tehdessä saavutettiin tavoitteista oikeastaan kaikki niille
+asetetut tavoitteet, eli koodin laajennettavuus, selkeys, erityisesti että
+selkeästi eri osat ovat eroteltuina eri metodeikseen ja ehkä dokumentointi. 
+Vectorizerissa tehdessä tuotti ongelmia kordinaatiston vasenkätisyys, 
+eli oikeakäsisääntö ei vektoreiden ristitulossa toiminut. Myös sopivan 
+algoritmin kehittäminen tuotti ongelmia. GameMap:kin vaati pientä vääntöä 
+virheiden ja algoritmin vuoksi, jotka saatiin onneksi korjattua.
+
+
+J:
+Koska itselläni ei ollut aikaisempaa kokemusta verkko-ohjelmoinnista, eikä
+kovinkaan mittavaa ohjelmointikokemusta Java-kielellä, kului uusien asioiden
+opettelemiseen kohtalaisen paljon aikaa. Projektin loppuvaiheessa
+jouduttiinkin hieman tinkimään verkko-osan vaatimuksista, koska aika kävi
+vähiin. Suurimman osan ohjelmointityöstä tein pääsiäisloman aikana, ja
+jälkikäteen arvioituna olisi toteuttaminen ehkä ollut syytä aloittaa
+aikaisemmin. Raporttia kirjoitettaessa ei suunnitelmassa mainittua
+UDP-protokollaan perustuvaa tiedonsiirtoa oltu toteutettu toimivasti, lisäksi
+mm. dokumentoinnissa ja virhetilanteiden käsittelyssä olisi parantamisen
+varaa.
+
+Sunnitelmassa mainitut riskit liittyen aikatauluun ja uusiin tekniikoihin
+kävivät siis omalla kohdallani toteen.
+
+Alunperin ajateltu verkko-osan "itsenäisyys" eli käyttökelpoisuus jatkossa
+muissa ohjelmistoissa toteutui osittain, sillä tiedonsiirtoon käytettävät osat
+ja kuuntelijoihin perustuva arkkitehtuuri on siirrettävissä myös muunlaisiin
+ympäristöihin. Tiedonsiirtoluokkia käyttävä ja kuuntelijarajapinnat toteuttava
+verkon osa on lähemmässä vuorovaikutuksessa ohjelman kontrolleriosan kanssa,
+joten sen siirrettävyys suoraan muihin toteutuksiin on hieman huonompi.
+Toisaalta sen tarjoama yksinkertainen rajapinta voi tosin olla jopa
+hyödyllinen muissa projekteissa.
+
+K:
+Grafiikan toteutus jäi ehkä liian myöhäiseen vaiheeseen, jolloin fysiikan ja
+vektorisoinnin alkuversioden testaus ei ollut helppoa. Tosin grafiikka oli
+melko nopeasti valmis kun sitä oikeasti tarvittiin. Grafiikan toteutuksessa
+oli pieni synkronointiongelma, joka tosin ratkesi nopeasti kun ongelmaan
+pureuduttiin.
+
+Käyttöliittymään tuhrautui ihan liian paljon aikaa. Peli-ikkuna saatiin
+helposti koon pienentämistä kestäväksi, tosin muiden ikkunoiden optimointi ei
+ollut antoisaa eikä helppoa, joten siitä luovuttiin. Oikestaan JFC:n
+monipuolisuus oli sekä hyödyllistä että haitallista. Kaiken sai tehtyä, mutta
+se ei aina ollut niin helppoa kuin se voisi olla, vaikka siitä on jo
+kokemusta ja osasi odottaa ongelmia.
+
+Controlleri ei oikeastaan ollut niin ongelmallinen kuin miltä tuntui. Tosin
+verkko-osan synkronisointi ei vielä ole käytössä, joten ehkä pahin on vielä
+edessä.
+
+Voi kuitenkin todeta, että vaikka suunnitelmaa varten ei kaikki tullut
+valmiiksi on mahdollista, että demoon mennessä saadaan kaikki perusvaatimukset
+täytettyä.
+
+Työskentelytavoista voi mainita, että cvs-palvelimen käyttö, vaikka siitä
+koitui vähän lisää työtä, oli kyllä hyvin käytännöllinen. Useammin kuin kerran
+editoitiin eri kohtia samasta tiedostosta yhtä aikaan, mutta tästä ei koitunut
+ongelmia. Antin käyttö oli onnistunutta, tosin sen puuttuminen atk-keskuksen
+koneilta aiheutti hieman lisätyötä. Projektin aikana esittelin myös
+log4j-kirjaston, jonka käyttö oli suositeltavaa, koska eteenkin
+monisäikeisissä kohdissa se helpotti debuggausta. 
+
+
+Toteutunut ajankäyttö. Yhteenveto tuntikirjanpidosta. 
+***
+T:
+Ajankäyttö fysiikan toteutuksessa toteutui muuten suunnitelman raameissa,
+mutta loppupuolella esiintyneet yllättävät ongelmat debuggauksineen veivät
+aikaa ylenmäärin.
+
+J:
+Ajankäyttö Vectorizerin ja GameMapin toteutuksen puolesta toteutui, mutta
+näistä vastannut henkilö ei kerennyt auttaa muita tms.
+
+A:
+Verkko-osa:
+Viikko 12-14 10 h Suunnittelua ja toteutuksen aloittelua
+       15    25 h Ohjelmointia (ja vähän suunnittelua)
+       16    25 h Ohjelmointia, lisäksi raportin kirjoittamista
+
+
+K:
+Projektin hallintaan, erityisesti rajapintojen työstämiseen, kului
+säännöllisesti arvioitua enemmän aikaa. Controllerin ja grafiikan toteutukset
+pysyivät aikaraameissaan, mutta kuten jo mainittiin Swing-kirjaston käyttö oli
+aikaa vievää.
+
+
+
+
+Ohjelmiston arkkitehtuurinen sanallinen ja UML-esitys. Lisäksi arvio
+arkkitehtuurin onnistuneisuudesta. 
+
+Arkkitehtuurikuvaus
+***
+Ohjelma on toteutettu kolmeen periaatteelliseen kerrokseen. Ylimpänä,
+toteuttaen interaktion käyttäjän kanssa on käyttöliittymäkerros. Sen alla on
+peliä ohjavaa kerros, Controlleri ja sen dataluokat. Pelin kontrolleri hoitaa
+synkronoinnin peliin kytkettävien implementaatioden välillä. Alimpana ovat
+Controlleriin kytketyt implementaatiot eri osa-alueista.
+
+K: 
+Käyttöliittymäkerros koostuu Launcher-luokasta, joka käyttää JFrame-luokkaa
+ikkunan näyttämiseksi käyttäjälle. AbstractWindow-luokka määrittelee
+vaihdettavan ikkunasisällön, joka näytetään JFrame:illä.  MainWindow luo oman
+instanssin Controllerista näyttääkseen esikatselun.  Launcher luo myös
+instanssin Controllerista, jonka grafiikka näytetään GameWindow:sissa.  Tämä
+arkitehtuuri toimii mielestäni hyvin ja on ollut nopein Swing-käyttöliittymä
+tehdä. Tosin koska tapahtumienkäsittely on kuitenkin vielä Launcherissa, ei
+tämä ratkaisu kuuntelijan suhteen skaalaudu hyvin suurempaan määrään
+ikkunoita.
+
+Controller on tilakone joka sitoo yhteen eri alemman tason komponentit.
+Samalle tasolle kuuluu myös GameData-rajapinta. Sen avulla määritellään
+yleisiä rajapintoja joita muut komponentit voivat vastaanottaa. Controllerilla
+on omat tähän peliin soveltuvat implementaatiot näistä rajapinnoista.
+Controller ajaa omassa säikeessään käyttöliittymästä riippumatta, näin saadaan
+esim. tapahtumat käsiteltyä nopeasti vaikka fysiikka laskee parhaillaan jotain
+operaatiota. Koska verkko osa ei ole valmis, on Input-rajapinnan
+implementaatio kytketty pelaajan pallon ohjaamiseen.
+
+Grafiikka on toteutettu täysin suunnitelman mukaan; AbstractGraphics-luokkalle
+voi rekisteröidä RendererPlugin:eja dynaamisesti. GraphicsImpl tarjoaa
+Controllerille kankaan jonne piirtopluginnien tulos päivitetään aina
+pyydettäessä. Koska tuplapuskuriin piirto tapahtuu Controllerin säikeessä ja
+ruudulle päivitys AWT:n Event-säikeessä, täytyy varmistaa ettei tuplapuskuria
+muuteta kun ruutua päivitetään.
+
+A:
+Vektorisoija vektorisoi kuvan kahden rajapinnan avulla,
+VectrorizationParameters määrittelee kuinka VectorizableImage pitää
+vektorisoida. MapImage toteuttaa molemmat näistä rajapinnoista.
+
+Vectorizer käy läpi kaikki pikselit. Jos se löytää alueiden rajan, jolla ei
+olla käyty (tarkistaa sen haveBeen- taulukosta), kutsuu se PlaneIteratoria.
+PlaneIterator on olio, joka seuraa kahden eri alueen välistä rajaa.
+PlaneIteratorin luomisen yhteydessä laitetaan iterVector:in palauttamia
+vektoreita listaan imageVectors-listaan. IterVector kutsuu moveToNextCross:ia
+toistuvasti ja ylläpitää vektoria, jonka katkaisee sopivassa kohdassa.
+MoveToNextCross muuttaa iterpos-vektoria ja vector-vektoria niin, että uusi
+iterpos ilmaisee seuraavaa rajan risteystä. Tämä käyttää searchDots-metodia.
+SearchDots muuttaa parametreina annettuja MutableVectoreita siten, että ne
+ilmaisevat edessäolevien pikseleiden paikkoja. Kun näiden koordinaateilla
+kutsutaan moveToNextCrossissa (vectorizer:in) getPixelZone(x,y), saadaan
+vastaavat alueitten koodit.  Näiden avulla selvitetään, onko seuraava risteys
+suoraan edessä vai tarvitaanko kääntyä.  Samalla paikka merkitään
+läpikäydyksi.
+
+GameMap:ssa on kaksi toimintoa: put* ja get*. (*=ImageVector tai Particle).
+GameMap:ssa koko kartta jakaantuu 100:n osaan, joiden sisällöstä huolehtii
+Area-oliot. Kun ImageVector laitetaan kartalle, selvitetään mihin
+Area-olioihin se kuuluu ja laitetaan se sinne. Samoin Particle:n kanssa.  Kun
+taas kutsutaan GetImageVector kaikki annettua pistettä annetulla etäisyydellä
+olevat Area:t käydään läpi ja niistä otetaan niiden sisältävät ImageVector:it.
+
+J:
+MISSING
+
+T:
+MISSING
+
+---
+
+
+Mitä opimme.
+***
+T:
+Fysiikan toteutuksen parissa työskentely havainnollisti hyvin, että metodien
+ja järjestelmien testaaminen kannattaa aloittaa mahdollisimman aikaisessa
+vaiheessa, sillä ongelmat yleensä propagoituvat alemmilta tasoilta ylemmille
+tasoille, jolloin ongelman aiheuttajan selvittäminen voi olla vaikeaa.
+Laskutoimituksia kehittäessä on syytä miettiä huolellisesti kaikki
+poikkeustapaukset ja tilanteet, joita saattaa syntyä. Lisäksi laskujen
+tarkistaminen muutamaan otteeseen on suotavaa. Myös koodi ja järjestelmän
+yleinen logiikka tulisi tarkistaa.
+ 
+Ahertaessa deadlinen alla voi helposti ajautua rankkaan työskentelyputkeen,
+joka ei taukoja eikä virkistäytymishetkiä tunne. Tärkeä osa työn
+onnistumisessa (ja oman työkyvyn ylläpitämisessä) on asettaa rajat omalle
+työmäärälle ja päivittäiselle rehkimiselle. Päiviä jatkuva liki tauoton
+työskentely osoittautui huonoksi ideaksi.
+
+J:
+Verkko-osaa tehdessäni opin ensinnäkin verkko-ohjelmointia Javalla, eli
+tietoliikenneominaisuudet toteuttavien luokkien (esim. Socket-luokkien)
+käyttämistä sekä client/server-mallin toteuttamista. Verkko-ohjelmointiin
+liityi myös säikeiden käyttö ja rinnakkaisohjelmointi, joiden opetteluun kului
+jonkin verran aikaa. Lisäksi opin verko-osassa käytetyn
+kuuntelija-arkkitehtuurin soveltamista. Suunnitelmaan kirjatut
+oppimistavoitteet siis toteutuivat osaltani.
+
+Lisäksi huomasin, että asioiden opettelemiseen kului enemmän aikaa kuin olin
+ajatellut. Olisi siis syytä aloittaa toteuttaminen ajoissa, koska
+loppuvaiheessa ohjelmavirheiden korjaamisessakin kuluu oma aikansa.
+
+A:
+Kannattaa ajatella ja keksiä keinoja debugata koodia jo alusta asti. Näin
+saadaan helposti myös myöhemmät muutokset nopeasti selville tarkistamalla
+koodi ensin ensimmäisillä debuggaustesteillä. Kannattaa myös testata vaikka
+käytännössä kaikki mahdollinen pariin otteeseen.
+
+
+
+K:
+Mitään sudenkuoppia ei eteen tullut, mutta kyllä ongelmia riitti. Luulen,
+että Netbeansin ja cvs:n käytön aloittaminen osottautui muille luultua
+hankalammaksi. Perusasiat olisi varmaan kannattanut käydä läpi kahdesti, ja
+rauhallisessa ympäristössä.
+
+Arkitehtuuri lyötiin lukkoon jo aikaisessa vaiheessa, mikä selvensi asiota,
+tosin jotkin rajapinnat eivät olleet varmoja tarpeeksi aikaisin. Suurin syy
+aikataulun venähtämiseen oli kuitenkin varmaan tarpeeksi tarkan
+luokkasuunnitelman puute. Arkitehtuurin lisäksi olisi jokaisesta osasta tehdä
+tarkka luokkakaavio ennen toteuttamista.
+
+

@@ -1,0 +1,8 @@
+
+
+Ohjelmiston arkkitehtuurinen sanallinen ja UML-esitys. Lisäksi arvio
+arkkitehtuurin onnistuneisuudesta.
+***
+Fysiikan selkärankana toimii luokka PhysicsImpl, joka impelementoi Physics interfacen. PhysicsImpl instanssi luo instanssin PhysicalPropertiesista, joka sisältää ohjelman sisäisen fysikaalisen maailman oleellisimmat parametrit, kuten gravitaation ja ilmanvastuksen. CollisionSystem luokan instanssi luodaan selvittämään seuraavan aika-askeleen tapahtumat, aina kun kontrollista tulee pyyntö siirtää partikkeleita eteenpäin.  CollisionSystemissä luodaan WallCollision instanssit parametreinaan pelialue ja kullekin oma partikkelinsa. WallCollisions instanssit laskevat partikkeliensa seuraavan törmäyshetken käyttäen apuna PhysicalCalculation kirjastoa. Törmäyshetkien tapahtuma-ajankohdan perusteella CollisionSystem instanssi laittaa WallCollision instanssit sisäiseen prioriteettijonoonsa, josta se käsittelee tapahtumat järjestyksessä.
+
+

@@ -1,0 +1,18 @@
+
+25.2:  1.0h Ensimm‰inen kokous, aihe.
+3.3 :  1.0h Toinen kokous, meta:mit‰.
+10.3:  2.0h Kolmas kokous, meta:miten.
+14.3:  4.0h Alustavaa algoritmien suunnittelua.
+18.3:  3.0h Projektisuunnitelman tekemist‰, alustavaa suunnittelua.
+19.3:  2.0h Lis‰‰ projektisuunnitelmaa, algoritmien vertailua.
+20.3:  1.0h Lis‰‰ projektisuunnitelmaa.
+23.3:  3.0h Alustavaa koodausta.
+26.3:  6.0h Koodausta. Algoritmien vertailua. Iteroimista.
+3.4:   5.0h P‰‰asiassa vectorizerin koodausta.
+7-8.4: 10.0h GameMapin koodausta. Vectorizerin debuggausta.
+11.4:  1.5h Koodausta. GameMapin debuggausta
+12.4:  4.0h Debuggausta.
+13.4:  10.0h Debuggausta. Koodausta.
+14.4:  7.0h Raportti. Koodin kommentointi.
+
+Yhteens‰ 59 h. Joitain tunteja suunnittelussa.

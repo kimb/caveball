@@ -1,0 +1,20 @@
+Ohjelmiston arkkitehtuurin sanallinen esitys / Network
+
+Verkko-osan "pääluokkana" toimii NetworkImpl-luokka, joka toteuttaa core-osan Network-rajapinnan. Sen avulla etsitään verkosta servereitä ja otetaan yhteys sellaiseen, tai käynnistetään oma serveri. Sen kautta myös lähetetään paketteja verkon yli kun yhteydet on asetettu. Pääluokka kommunikoi core-osan kanssa pääosin NetworkPacketListener-rajapinnan avulla.
+
+Serverien etsiminen tapahtuu käyttämällä multicast-yhteyttä (MulticastConnection). Serverinä toimivat tietokoneet kuuntelevat UDP-protokollalla lähetettäviä multicast-viestejä (jotka ovat ServerSearchPacket-tyyppisiä olioita), ja ennen varsinaisen yhteyden muodostamista käytetään TCP-pohjaista tiedonsiirtoa kuvaustietojen siirtämiseksi.
+
+Kun liitytään palvelimeen, on avattava uusi client-yhteys (Client), joka ottaa yhteyden valittuun serveriin (Server). Client-yhteydelle asetetaan ensin yhteyskuuntelija (ClientConnectionListener), joka valitussa toteutuksessa on ennalta luotu yhteyskäsittelijä (ClientConnectionHandler). Yhteyskäsittelijä vuorostaan asettaa uudelle client-yhteydelle pakettikuuntelijan (PacketListener), joka tässä toteutuksessa on pakettikäsittelijä (PacketHandler).
+
+Pakettikäsittelijän avulla voi yhteyttä (Connection) pitkin lähettää paketteja. Lähetettävät paketit ovat olioita, jotka toteuttavat Serializable-rajapinnan. Pakettikäsittelijä muokkaa oliot verkkopaketeiksi (NetworkPacketImpl), jotka sisältävät aikatietoa verkon viiveen laskemiseksi. Nämä paketit lähetetään sitten verkon yli.
+
+Pakettikäsittelijä hoitaa myös yhteyden kautta vastaanototettujen pakettien käsittelyn. Viivelaskijan (PingController) avulla asetetaan paketille viive, minkä jälkeen NetworkPacket-rajapinnan toteuttava paketti siirretään core-osaan NetworkPacketListener-tyyppiselle käsittelijälle. Pakettikäsittelijä voi myös katkaista yhteyden.
+
+Serverinä toimittaessa vastaanotetaan clientien yhteyksiä, ja luodaan server-tyyppisiä "vastayhteyksiä". Serverille asetettu yhteyskuuntelija (ServerConnectionListener) on server-tyyppinen yhteyskäsittelijä (ServerConnectionHandler), joka asettaa saaduille yhteyksille pakettikäsittelijät, jotka se tallentaa. Näiden pakettikäsittelijöiden avulla voi kaikkien yhteyksien kautta lähettää paketteja, ja yhteydet voi myös katkaista (vastaavasti kuin client-tapauksessa, jolloin yhteyskäsittelijällä on vain yksi yhteys).
+
+Verkon yli otettavat yhteydet voidaan jakaa paitsi client- ja server-tyyppeihin, myös TCP- ja UDP-pohjaisiin yhteyksiin. TCP-protokollaa käytetään luotettavaan tiedonsiirtoon, UDP:llä taas lähetetään pieniä paketteja joiden pitää päästä nopeasti perille ilman takuita. Käytännössä client-yhteyksille on siis erilliset TcpClient ja UdpClient -luokat, ja servereillä vastaavasti myös eri luokat. (Raporttia kirjoitettaessa UDP-tiedonsiirtoa ei tueta; lähiverkkoympäristössä TCP-yhteydet toimivat kuitenkin riittävän nopeasti).
+
+
+Arkkitehtuurin onnistuneisuus
+
+Arkkitehtuuri ei eri kuuntelijoineen ja rajapintoineen ole kovin suoraviivainen. Tämä tuotti toteutusvaiheessa ongelmia, kun monia eri riippuvuuksia piti ottaa huomioon. Kuuntelijoihin perustuva rakenne on kuitenkin suhteellisen siisti, eikä tuhlaa tietokoneen resursseja. Verkon toteutuksen eri osat olisi vielä voinut eriyttää eri moduuleihin siten, että kunntelija-arkkitehtuuri olisi erillään pelille ominaiset toiminnot toteuttavista luokista. Tältä osin nykyinen rakenne kuitenkin noudattaa alkuperäistä suunnitelmaa.

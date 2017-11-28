@@ -1,0 +1,79 @@
+
+Ryhmän numero. Kerrotaan ryhmälle viimeistään suunnitelman palautetilaisuudessa. 
+***
+41?
+
+
+URL ohjelmakoodiin. Katso alempi pallukkalista. 
+***
+---
+
+
+Arviointi projektisuunnitelman hyvyydestä ja/tai paikkansapitävyydestä sekä siihen tarvitut muutokset. 
+***
+Projektisuunnitelma piti paikkansa ohjelman yleisrakenteen osalta ... ... ...
+Fysiikan toteutuksen osalta työskentely eteni projektisuunnitelman mukaisesti. Ainoastaan loppupuolella esiintyneet fysiikkaosan bugit aiheutti sen, että suunnitelmassa olevaa tavoitetta pallojen välisistä törmäyksistä ei ehditty täyttää tämän raportin kirjoittamiseen mennessä. 
+
+
+
+Kriittinen arviointi omasta työskentelystä sekä projektin tavoitteiden saavuttamisesta. 
+***
+Ohjelman fysiikan toteutuksessa tärkeimmät tavoitteet newtonilaisen fysiikan
+sekä seinätörmäysten implementoimiseen saavutettiin. Vaikka törmäyslaskentaan
+tutustuttiin etukäteen lukemalla aiheeseen liittyviä kirjoituksia
+internetistä, eivät valmiit metodit ja kaavat pudonneet syliin yhtä helposti
+hakukoneen avulla, vaan ne piti tehdä itse. Laskutoimitusten kehittäminen
+tyhjästä oli yllättävän haastavaa, mutta silti luultavasti harjoitustyön
+antoisin osa. Suunnitteluvaiheesta suurin osa ajasta kului erilaisten
+seinätörmäystarkistusten kehittämiseen ja vertailuun, mikä oli yllättävän
+miellyttävää, kaikkien toteustapojen vielä oltua avoinna. Tavoitteena oli
+saada aikaan mahdollisimman tehokas törmäystarkistus, ja siinä
+onnistuttiinkin, ottamalla laskuissa huomioon mahdollisimman vähän seiniä.
+
+Matka teoriasta käytäntöön on pitkä, ja varsinaisen törmäystoteuksen
+koodaaminen osoittautui vaikeaksi, johtui se sitten vähäisestä
+ohjelmointikokemuksesta tai liian tiukasta aikataulusta. Ensimmäisissä
+testeissä, jotka toteutettiin vasta kun seinätörmäysfysiikka oli olevinaan
+valmiiksi koodattu, havaittiin lukuisia ongelmia (kiihtyvyyden puute, seinien
+havaitsematta jättäminen). Tämä ei ollut yllätys, sillä oli varauduttu siihen
+ettei kaikki ensimmäisellä kerralla toimi. Mutta debuggaus olikin oletettua
+raskaampaa, ja vasta parin täysipäiväisen debuggaus -session jälkeen saatiin
+seiniintörmäystarkistukset siedettävään kuntoon. Tätä kirjoittaessa kaikkia
+seinätörmäyksiä ei havaita täydellisesti, ja pientä fysiikkamoottorin
+nikottelua esiintyy, mutta kokonaisuudessaan järjestelmä täyttää sille
+aseitetut tavoitteet. Ainoastaan partikkelien keskenäisien törmäysten
+tarkistusta ei ehditty toteuttaa debuggauksesta johtuneen aikapulan takia.
+
+
+Toteutunut ajankäyttö. Yhteenveto tuntikirjanpidosta. 
+***
+Ajankäyttö fysiikan toteutuksessa toteutui muuten suunnitelman raameissa,
+mutta loppupuolella esiintyneet yllättävät ongelmat debuggauksineen veivät
+aikaa ylenmäärin.
+
+
+Ohjelmiston arkkitehtuurinen sanallinen ja UML-esitys. Lisäksi arvio
+arkkitehtuurin onnistuneisuudesta. 
+***
+---
+
+
+Mitä opimme -osio.
+***
+
+Fysiikan toteutuksen parissa työskentely havainnollisti hyvin, että metodien
+ja järjestelmien testaaminen kannattaa aloittaa mahdollisimman aikaisessa
+vaiheessa, sillä ongelmat yleensä propagoituvat alemmilta tasoilta ylemmille
+tasoille, jolloin ongelman aiheuttajan selvittäminen voi olla vaikeaa.
+Laskutoimituksia kehittäessä on syytä miettiä huolellisesti kaikki
+poikkeustapaukset ja tilanteet, joita saattaa syntyä. Lisäksi laskujen
+tarkistaminen muutamaan otteeseen on suotavaa. Myös koodi ja järjestelmän
+yleinen logiikka tulisi tarkistaa. 
+
+Ahertaessa deadlinen alla voi helposti ajautua rankkaan työskentelyputkeen,
+joka ei taukoja eikä virkistäytymishetkiä tunne. Tärkeä osa työn
+onnistumisessa (ja oman työkyvyn ylläpitämisessä) on asettaa rajat omalle
+työmäärälle ja päivittäiselle rehkimiselle. Päiviä jatkuva liki tauoton
+työskentely osoittautui huonoksi ideaksi.
+
+

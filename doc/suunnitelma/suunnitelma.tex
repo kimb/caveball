@@ -1,0 +1,399 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[finnish]{babel}
+\usepackage[dvips]{graphicx}
+\usepackage{pstricks}
+\newsavebox{\Imagebox}
+\frenchspacing
+
+%
+\addtolength{\textwidth}{0cm}
+\addtolength{\textheight}{1cm}
+\addtolength{\topmargin}{-0.5cm}
+%
+
+\title{T-93.270: Projektisuunnitelma}
+\author{Kim Blomqvist\protect\footnote{Missä ei toisin mainittu}}
+
+
+\begin{document}
+
+% \class - create a description for a class
+% params: modifiers name description
+\newcommand{\class}[3]
+{#1 \textbf{#2} \\ \noindent \nopagebreak
+#3 \\ }
+
+% \code - koodia juuri niinkuin se on kirjoitettu
+\newcommand{\code}[1]
+{\mbox{\emph{#1}}}
+
+% don't be pricky about space and hypenation-problems
+\sloppy
+
+\maketitle
+
+\section{Jäsenet}
+\begin{tabular}[t]{lll}
+  Nimi & Opiskelijanumero & Puhelin \\
+  \hline
+  Aleksi Hänninen & 61299F & 0503549363 \\
+  Kim Blomqvist  & 58435M & 0503848780 \\
+  Jimmy Kjällman & 57631E & 0407581001 \\
+  Tuukka Takala & 61017K & 0503605553
+\end{tabular}
+
+\section{Aiheen kuvaus} Toteutettava ohjelmisto on vuorovaikutteinen
+fysikaalinen simulaatio. Sen ideana on mallintaa luolastossa pomppivia
+palloja, jotka noudattavat määriteltyjä lakeja\footnote{oletuksena
+realistiset fysiikan lait} ja voivat törmätä toisiinsa tai luolan
+seiniin. Lisäksi käyttäjä voi ohjata palloaan, joten ohjelma on
+luonteeltaan pelimäinen. Ohjelma sisältää verkko-ominaisuudet, eli
+yhdessä pelissä voi olla useampia pelaajia.
+
+\section{Tavoitteet}
+Projektin tulokselle asetamme seuraavat vaatimukset:
+\begin{itemize}
+  \item toimiva ja käytettävä ohjelma
+  \item hyvin dokumentoitu koodi
+  \item viihdyttävä lopputulos
+  \item laajennettava
+  \item lisäksi toissijaisina:
+  \subitem koodin uudelleenkäyttö tulee olla helppoa
+  \subitem weblaunch-optio
+\end{itemize}
+
+\noindent
+Lisäksi ohjelman pitäisi, pistelaskun avulla, antaa pelaajille
+mahdollisuus kilpailuun. Lopputuloksen on myös esteettisesti oltava
+miellyttävä.
+
+Työ tullaan toteuttamaan Javalla. Ryhmämme tavoittelee projektista
+kiitettävää arvosanaa.
+
+
+\section{Kiinnostusalueet}
+
+\paragraph{Aleksi Hänninen, 61299F,} tekee bittikartan vektorisoivat
+rutiinit ja tutkii myös eri algoritmien toimivuutta. Lisäksi hän on
+kiinnostunut auttamaan fysiikan toteutuksessa.
+
+\paragraph{Kim Blomqvist, 58435M,} hoitaa projektin kokonaisuutta.
+Hän suunnittelee perusarkkitehtuurin ja eri komponenttien välisen
+viestinnän, implementoi yleisen synkronisoinnin ja ohjelmaa
+kontrolloivan ytimen. Hän vastaa myös käyttöliittymästä ja
+käyttäjävuorovaikutuksen toteuttamisesta. 
+
+\paragraph{Jimmy Kjällman, 57631E,} toteuttaa verkko-ominaisuuksiin
+kuuluvat osat. Hänellä on tavoitteena oppia verkko-ohjelmointia ja
+soveltaa siihen liittyviä tekniikoita.
+
+\paragraph{Tuukka Takala, 61017K,} on vastuussa fysiikkamoottorin
+toteutuksesta. Hänen kiinnostuksensa piiriin kuuluu ohjelman
+fysikaalisen systeemin mallintamisen lisäksi pelin graafinen ilme,
+sekä interaktiivisuuden muokkaus.
+
+\section{Arkkitehtuurikuvaus} 
+
+Pelin ydin on \code{Controller}-luokka, johon liitetään
+\code{Physics}, \code{Graphics}, \code{Network} ja \code{Input}
+-moduulit. \code{GameData}n implementaatiota taas käytetään
+sing\-letoni\-mai\-sesti pelidatan säilyttämiseen.
+
+\begin{figure}[!htpb]
+  \begin{center}
+    \includegraphics[scale=0.6]{CoreClasses.eps}
+  \end{center}
+  \caption{Peliosan ydinluokat}
+  \label{fig:coreclasses}
+\end{figure}
+
+\code{Controller} on pohjimmiltaan tilakone, joka käsittelee eri
+moduulien välisen synkronoinnin ja toimii rajapintana moduuleille
+käyttöliittymästä tehtyihin pyyntöihin. Sen toteutukseen ei tässä
+dokumentissa kuitenkaan paneuduta tarkemmin. 
+
+Koska kaikki moduulit ovat vain rajapinnoilla määriteltyjä on
+moduulien jatkokäyttö muissakin projekteissa helppoa. Lisäksi tämä
+arkkitehtuuri mahdollistaa myös hyvän ohjelman laajennettavuuden,
+koska jokainen moduuleista on helppo korvata laajennetulla tai täysin
+uudella implementaatiolla.  Itse mo\-duu\-lien implementaatioissakin
+pyritään, kun sopivaa, soveltamaan geneeristä modularisuutta.
+
+\subsection{Käyttöliittymä}
+
+Ohjelman käyttöliittymä toteutetaan Javan Swing-kirjaston avulla.
+Usealla dia\-logeista on interaktiota \code{Controller}in kanssa, koska
+se on ylimpänä rajapinta kaikkeen toiminnallisuuteen. Päädialogit ovat:
+
+\paragraph{Asetuksissa} pystytään esim. vaihtamaan pelaajaan nimeä
+sekä hänen pallonsa väriä.
+
+\paragraph{Uusi peli}-dialogista voi liittyä lähiverkossa löydettyihin
+peleihin tai Internetissä olevaan peliin.
+
+\paragraph{Uusi serveri}-dialogista voi perustaa uuden serverin, tässä
+voi valita esim. pelin nimen ja kartan.
+
+\paragraph{Peli}-dialogissa voi chattailla muiden pelaajien kanssa
+samalla kun ohjaa palloaan reaaliajassa. \code{Input}-moduulin
+implementaatio liitetään tähän \mbox{dialogiin} näppäimiä kuuntelemaan.
+
+\subsection{Verkko-osa\protect\footnote{Kirjoittanut Jimmy Kjällman}}
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.6]{NetworkClasses.eps}
+\caption{
+Verkko-osan perusluokat
+}
+\label{fig:verkko-luokat}
+\end{center}
+\end{figure}
+
+Verkko-ominaisuuksia tarvitaan tiedon välittämiseen pelin eri
+instanssien välillä. Siitä huolehtiva osa toteutetaan
+client-/server-mallin mukaisesti, missä eri pelaajien clientit
+välittävät omat tietonsa jollekin valitulle, serverinä toimivalle
+pelille ja saavat siltä muiden clientien tietoja.
+
+Verkko-osa toimii vuorovaikutuksessa kontrolliosan kanssa. Kontrolleri
+(\code{Controller}) voi pyytää verkko-osaa (\code{Network}) lähettämään
+pelitilanteen tietoja sisältäviä paketteja verkon yli, tai etsimään
+verkossa olevia servereitä pelin alussa. Kun verkosta tulee pelidataa
+sisältäviä paketteja, kontrolleri saa tiedot kuuntelemalla
+verkko-osaa.
+
+Jotta tiedot voitaisiin lähettää verkon yli, on verkon toteutuksen
+muokattava data sopiviin paketteihin. Vastaavasti on käsiteltävä myös
+verkosta tulleet paketit. Pakettien on sisällettävä aikatietoa,
+koska pelien täytyy pysyä samassa ajassa. Viive, joka syntyy kun
+paketit lähetetään verkon yli, on tiedettävä ja huomioitava, kun
+siirrettyä tilannedataa hyödynnetään. Yhteyksien viiveiden laskemista
+varten toteutuksessa on erillinen ping-osa (\code{PingController}).
+
+Eri tietokoneiden kanssa kommunikointia varten verkko-osa luo
+yhteyksiä (\code{Connection}). Nämä voivat olla joko Server- tai
+Client-tyyppisiä. Server-pelillä on yhteydet kaikkiin clienteihin,
+clientit taas kommunikoivat serverin kanssa.
+
+Data siirretään verkon yli joko TCP- tai UPD-datagrammeina. Nopeasti
+vanhentuvat tiedot kuten sijaintitiedot lähetetään UDP-protokollalla,
+TCP-protokollaa käytetään, kun tiedon halutaan varmasti tulevan perille
+eikä tieto ole aikakriittistä, kuten esim. peliin liittymisessä.
+Server- ja Client-yhteyksistä on omat versionsa TCP:lle ja UDP:lle.
+
+
+\subsection{Vektorisoija ja vektorisoitu
+kartta\protect\footnote{Kirjoittanut: Aleksi Hänninen}}
+Tässä osiossa käydään läpi kuinka bittikartasta tehdään vektorikartta
+pallojen törmäyskulmien laskemista varten. Lisäksi esitellään
+vektorisoidun kartan tallentamiseen käytettävää tietorakennetta.
+
+\paragraph{Vektorisoijasta} pyritään tekemään hyvin monikäyttöinen,
+sisällyttäen siihen mahdollisuus monien erityyppisten alueiden
+tunnistamiseen. Vektorisointiin kuuluvat seuraavat
+luokat (katso kuva \ref{fig:vectorizerclasses}): \\
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.6]{VectorizerClasses.eps}
+\caption{
+Verkko-osan perusluokat
+}
+\label{fig:vectorizerclasses}
+\end{center}
+\end{figure}
+
+\class{class}{Vectorizer}{
+Vektorisoitava bittikartta annetaan \code{Vectorizer}ille
+\code{VectorizableImage}-rajapinnan avulla. Vektorisoinnin säännött
+taas annetaan \code{VectorizationParameters}-rajapinalla. Luotu olio
+iteroi kuvan jokaisen pikselin yli, kunnes löytää kahden eri alueen
+reunan josta se käynnistää alueitten rajaa seuraavan
+\code{PlaneIterator}in.  
+}
+
+\class{class}{PlaneIterator}{
+Tämän olio etenee löydettyä reunaa pitkin muodostaen vektorilistan
+reitistään, kunnes saapuu alkupisteeseensä tai löytää uudenlaisten
+alueitten rajan. Haarakohdissa se luo toisen \code{PlaneIterator}in
+jatkamaan yhtä haaraa ja jatkaa itse toista.
+
+PlaneIterator:in eriyttämiseen Vectorizerista päädyttiin, jotta tämä
+pystyisi kutsumaan kaltaistaan seuraamaan toista alueiden rajaa.
+Tällöin myös erityyppisten alueiden vektorisointiprosessissa
+mahdollisesti olevat erot pystytään helposti huomioimaan. Tietysti
+tällöin myös laajennettavuus paranee.}
+
+\paragraph{Vektorikartan} pitää pystyä palauttamaan mahdollisimman
+nopeasti ja mahdollisimman tarkasti annetun pisteen (mahdollisesti
+max(x,y)-metriikan mukaan) r-säteisessä ympäristössä olevat
+seinävektorit. 
+
+Käytännössä tämä toteutetaan jakamalla alue neliömäisiin pienempiin
+alueisiin, joissa sitten kaikki vektorit tallennetaan listaan.
+Dynaaminen alueen jako olisi myös mahdollista, mutta algoritmisesti
+paljon hankalampaa, ilman että siitä saataisiin huomattavaa etua. 
+
+\subsection{Fysiikka\protect\footnote{Kirjoittanut: Tuukka Takala}}
+Ohjelman fysiikkaan kuuluu täysin kimmoisten törmäysten realistinen
+mallintaminen. Ongelmana on ohjelman reaaliajassa tapahtuva
+hallittavuus. Kappaleiden liikkeen tulee olla ruudulla sujuvaa, ja
+kappaleiden tulee reagoida kontrolleihin välittömästi. Tämän vuoksi
+varsinaisia fysikaalisia laskutoimituksia pitää olla mahdollisimman
+vähän, ja niiden tulee olla mahdollisimman tehokkaita. 
+
+Periaatteessa fysiikkaosion tarkoitus koko ohjelmassa on vain siirtää
+kappaleita halutun aika-askeleen verran eteenpäin. Tämän tulee
+tapahtua ohjelmassa nopeasti ja virheettömästi. Kappaleet eivät
+esimerkiksi saa juuttua toistensa tai seinien sisään. Käytännössä
+tämä toimii yhden silmukan avulla, jossa annettu aika-askel
+paloitellaan pienempiin aikajaksoihin, jotta hankalat törmäystilanteet
+pystytään käsittelemään. 
+
+\begin{figure}[!thb]
+\begin{center}
+\includegraphics[width=11cm]{fystilakone.eps}
+\caption{
+Pelin fysiikkamoottorin toiminta pääpiirteissään.
+}
+\label{fig:fystilakone}
+\end{center}
+\end{figure}
+
+Tässä menetelmässä, joka on esitetty kuvassa \ref{fig:fystilakone},
+lasketaan seuraavan törmäyksen ajanhetki, ja siirretään kaikki pallot
+tähän törmäyshetkeen, sekä päivitetään törmänneiden pallojen
+liikevektorit.  Sitten lasketaan seuraava törmäyshetki. Tämä menetelmä
+toimii, koska yhdellä tietyllä ajanhetkellä voi tapahtua vain yksi
+törmäys, joko pallon ja seinän tai kahden pallon välillä.
+
+Optimoinnin varaa on kohdassa, jossa kaikkia palloja olisi tarkoitus
+siirtää pienen osa-askeleen verran eteenpäin. Tätä ei tarvitse tehdä
+kuin niille palloille, jotka ovat vaarassa törmätä johonkin. Niiden
+pallojen sijainnit, jotka eivät ole törmäämässä annetun aika-askeleen
+sisällä mihinkään, voidaan päivittää yhdellä laskutoimituksella, ilman
+välivaiheita.
+
+Vaihtoehtoisesti fysiikan voisi hoitaa siirtämällä kaikkia kappaleita
+aina tarpeeksi pienen aika-askeleen verran eteenpäin, ja havaita josko
+kappaleet ovat menneet toistensa tai seinien sisään. Tässä tapauksessa
+pitäisi peruuttaa ajassa taaksepäin, tai hoitaa törmäys jollain muulla
+keinolla.
+
+Tarkoituksena on koodata ensin testiversio, jossa kappaleet
+kimpoilevat ai\-no\-as\-taan tapahtumakentän reunoista. Sitten
+ominaisuuksia lisätään hiljalleen: kappaleet kimpoilevat toisistaan ja
+sitten seinistä. \\
+
+\noindent Luokat pääpiirteissään: \\
+
+\class{abstract class}{PhysicalCalculations}
+{PhysicalCalculations on käytännössä kirjasto, joka sisältää koko
+joukon staattisia metodeja, joita käytetään muun muassa
+törmäystarkistuksiin, uusien paikkojen ja nopeusvektoreiden laskentaan
+sekä pisteiden ja janojen välisten etäisyyksien laskemiseen. Kolmen
+seuraavan luokkan instanssit käyttävät \code{PhysicalCalculations}in
+metodeita laskennassaan.}
+
+\class{class}{ParticleCollision}
+{Sisältää metodit kappaleiden ja seinien välisten törmäysten
+vaikutusten laskemiseen.}
+
+\class{class}{WallCollision}
+{Sisältää vastaavasti metodit kappaleiden välisten törmäysten
+vaikutusten laskemiseen.}
+
+\class{class}{Physics}{
+Kontrolli luo instanssin Physicsistä. Physics taas luo instanssit
+WallCollisionista ja ParticleCollisionista, joiden metodeja kutsutaan
+törmäysten sattuessa. Physics instanssi käytännössä sisältää
+koneiston, jolla ohjelman sisäistä fyysistä tilaa nytkäytetään
+aika-askeleen verran eteenpäin.
+}
+
+\subsection{Grafiikka} Pelitilanne piirretään reaaliaikaisesti, joten
+grafiikan esittämiseen tarvitaan suorituskykyinen mutta kuitenkin
+laajennettava rakenne. Koska Javan peruskirjastoja käytetään
+käyttöliittymän luomiseen, on luonnollista toteuttaa piirtäminen
+\code{java.awt.Canvas} luokalla. Tosin myös piirtorutiinien
+vaihtaminen toisiin piirtotapoihin mahdollistetaan.
+
+\begin{figure}[!htpb]
+  \begin{center}
+    \includegraphics[scale=0.6]{GraphicsClasses.eps}
+  \end{center}
+  \caption{Grafiikan piirtämisen perusluokat}
+  \label{fig:graphicsclasses}
+\end{figure}
+
+Kuvassa \ref{fig:graphicsclasses} on esitelty kuinka ytimen
+\code{Graphics}-rajapinnan implementaatio hoitaa pirtämisen erillisten
+\code{RendererPlugin}-rajapinnan toteuttavien olioiden avulla.
+Piirtosysteemin vaihto toiseen, joka kuitenkin tukee
+\code{AbstractGraphics}-luokan piirtotapoja, mahdollistaa helpon
+implementoinnin muilla piirtotavoilla. 
+
+\section{Aikabudjetti}
+\begin{tabular}[t]{lll}
+  Viikko & Aihe & Tuntia \\
+  \hline
+  12 & suunnitelma & 10h \\
+  13 & osien metodikohtainen suunnittelu & 10h \\
+  14 & koodaus & 15h \\
+  15 & koodaus & 15h \\
+  16 & raportti ja loppuviilausta & 10h \\
+  16 & loppuviilausta ja demo & 3h
+\end{tabular} \\
+\\
+Viikoittain tullaan pitämään ryhmäpalavereita. Suunnittelun ohella
+opiskellaan aihe ja mahdollisesti uusi teoria. Dokumentointi tuotetaan
+koodin teon ohella.
+
+\section{Riskien arviointi}
+
+\paragraph{Tiukka aikataulu} voi johtaa tilanteisiin, joissa jokin
+vaadittu osa ei ole toi\-min\-ta\-kunnossa kun toisen tehtävän
+tekeminen vaatisi sitä. Tämä ongelma voidaan kuitenkin välttää
+riittävällä ryhmän sisäisellä yhteistyöllä ja kommunikaatiolla.
+
+\paragraph{Uudet tekniikat.} Kaikkilla projektin jäsenillä ei ole
+kokemusta käytettävistä työkaluista ja tekniikoista. Tämä voi
+aiheuttaa vaikeuksia aikataulussa pysymiseen. Tosin on kuitenkin
+tarkoitus, että kaikki jäsenet auttavat toisiaan, jolloin kriittisiä
+osia voi tehdä useampikin henkilö.
+
+\paragraph{Fysiikan toimivuus,} usean pallon liikkeen realistinen
+mallintaminen ei ole triviaali ongelma. Tosin se on ratkaistu, joten
+ainoastaan yksityiskohdissa pitäisi tulla hiomista.
+
+\paragraph{Vaikeasti löydettävä ohjelmavirhe} voi pysäyttää
+jonkin osan kehityksen mutta yhteistyöllä kyllä vaikeatkin bugit
+löytyvät.
+
+\section{Työskentelytavat} 
+Koodin ja dokumenttien hallintaan käytetään cvs-palvelinta.
+Suunnittelu tehdään ryhmissä ja toteutus itsenäisesti. Suurin osa
+tiimistä käyttää Netbeans-kehitysympäristöä. Projektin kääntämiseen
+käytetään ant-työkalua.
+
+Koodi, kaaviot ja javadoc-kommentit kirjoitetaan englanniksi, muu
+dokumentaatio tehdään suomeksi.
+
+Tuntikirjaus tehdään omiin tiedostoihin cvs:ssä.
+
+\section{Käytettävät resurssit}
+\begin{tabular}[!h]{ll}
+Java tutorial ja api
+ & http://java.sun.com/docs/books/tutorial/index.html \\
+ & http://java.sun.com/j2se/1.4.2/docs/api/index.html \\
+Vinkkejä kehitykseen & http://www.gamasutra.com/ \\
+UML-ohjelma & http://argouml.tigris.org/ \\
+Netbeans & http://www.netbeans.org/ \\
+Ant & http://ant.apache.org/ \\
+\end{tabular}
+
+\end{document}

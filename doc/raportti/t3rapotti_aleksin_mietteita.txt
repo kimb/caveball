@@ -1,0 +1,123 @@
+
+Ryhmän numero. Kerrotaan ryhmälle viimeistään suunnitelman
+palautetilaisuudessa. 
+
+***
+41
+
+
+URL ohjelmakoodiin. Katso alempi pallukkalista. 
+
+
+***
+www.niksula.cs.hut.fi/~koblomqv/ 
+
+---
+
+
+Arviointi projektisuunnitelman hyvyydestä ja/tai paikkansapitävyydestä
+sekä siihen tarvitut muutokset. 
+
+***
+
+Projektisuunnitelma piti paikkansa ohjelman yleisrakenteen osalta. Alustavat kaaviot pitivät melko hyvin paikkaansa.
+
+Vectorizerin ja GameMapin osalta suunnitelma onnistui
+mukavasti. Ensimmäiset versiot olivat suunnitelman mukaan triviaaleja, eli Vectorizer
+palautti 4 seinävektoria, jotka kiersivät kenttää ulkoreunoja
+pitkin. Samoin GameMap palautti kaikki mahdolliset vektorit. Bugiset versiot 
+saatiin tehtyä molemmista melko pian, mutta molempia jouduttiin viilaamaan 
+melkein dl:ään saakka.
+
+
+
+
+
+Kriittinen arviointi omasta työskentelystä sekä projektin tavoitteiden
+saavuttamisesta.
+
+***
+Yleensä ottaen yhdessä työskentelyyn ei löydetty riittävästi aikaa,
+joten jouduttiin koodaamaan yksinään, eikä pystytty antamaan toisille
+neuvoja ja apua. Tämän ja henkilökohtaisten aikataulujen kireyden
+takia ei kaikkia projektin aiheessa mainittuja asioita saatu
+toteutettua ennen projektisuunnitelman palauttamista.
+
+Vectorizer:ia tehdessä saavutettiin tavoitteista oikeastaan kaikki
+niille asetetut tavoitteet, eli koodin laajennettavuus, selkeys,
+erityisesti että selkeästi eri osat ovat eroteltuina eri metodeikseen
+ja dokumentointi (? toim.huom.). Näiden lisäksi allekirjoittanut loi
+Vector-olion. Kun Vectorizeria ryhdyttiin tekemään, aiheutti ongelmia
+loppuun asti se, että v1.vCrossProduct(v2) jos v1 oli v2:n vasemmalla
+puolella, eli oikeakäsisääntö ei vektoreiden ristitulossa
+toiminut. Myös sopivan algoritmin kehittäminen tuotti
+ongelmia. GameMap:kin vaati pientä vääntöä virheiden ja algoritmin
+vuoksi, jotka saatiin onneksi korjattua hienoisen väännön takia.
+
+
+
+
+Toteutunut ajankäyttö. Yhteenveto tuntikirjanpidosta. 
+***
+
+
+Ajankäyttö Vectorizerin ja GameMapin toteutuksen puolesta toteutui,
+mutta näistä vastannut henkilö ei kerennyt auttaa muita, mm. koska matkusti
+Joensuuhun Pääsiäisen ajaksi.
+
+
+Ohjelmiston arkkitehtuurinen sanallinen ja UML-esitys. Lisäksi arvio
+arkkitehtuurin onnistuneisuudesta. 
+
+***
+
+Vectorizer käy läpi kaikki pikselit.
+Jos se löytää alueiden rajan, jolla ei olla käyty (tarkistaa sen haveBeen- taulukosta),
+kutsuu se PlaneIteratoria.
+
+Se on olio, joka seuraa kahden eri alueen välistä rajaa.
+luomisoperaatio PlaneIterator: laittaa iterVector:in palauttamia vektoreita listaan.
+->iterVector: kutsuu moveToNextCross:ia toistuvasti ja ylläpitää vektoria,
+jonka katkaisee sopivassa kohdassa.
+->moveToNextCross: muuttaa iterpos:ia ja vector:ia niin, että uusi iterpos ilmaisee seuraavaa 
+rajan risteystä.
+->searchDots: Muuttaa parametreina annettuja MutableVectoreita siten, että
+ne ilmaisevat edessäolevien pikseleiden paikkoja. 
+->(vectorizer:in) getPixelZone(x,y) joka merkitsee paikan käydyksi ja palauttaa pikseliä vastaavan
+koodin.
+
+---
+
+Mitä opimme -osio.
+***
+
+Kannattaa ajatella ja keksiä keinoja debugata koodia jo alusta asti. Näin 
+saadaan helposti myös myöhemmät muutokset nopeasti selville tarkistamalla koodi ensin 
+ensimmäisillä debuggaustesteillä. Kannattaa myös testata vaikka käytännössä kaikki 
+mahdollinen pariin otteeseen.
+
+
+
+
+Vectorizer käy läpi kaikki pikselit. Jos se löytää alueiden rajan, jolla ei
+olla käyty (tarkistaa sen haveBeen- taulukosta), kutsuu se PlaneIteratoria.
+PlaneIterator on olio, joka seuraa kahden eri alueen välistä rajaa.
+PlaneIteratorin luomisen yhteydessä laitetaan iterVector:in palauttamia
+vektoreita listaan imageVectors-listaan. IterVector kutsuu moveToNextCross:ia
+toistuvasti ja ylläpitää vektoria, jonka katkaisee sopivassa kohdassa.
+MoveToNextCross muuttaa iterpos-vektoria ja vector-vektoria niin, että uusi
+iterpos ilmaisee seuraavaa rajan risteystä. Tämä käyttää searchDots-metodia.
+SearchDots muuttaa parametreina annettuja MutableVectoreita siten, että ne
+ilmaisevat edessäolevien pikseleiden paikkoja. Kun näiden koordinaateilla
+kutsutaan moveToNextCrossissa (vectorizer:in) getPixelZone(x,y), saadaan
+vastaavat alueitten koodit.  Näiden avulla selvitetään, onko seuraava risteys
+suoraan edessä vai tarvitaanko kääntyä.  Samalla paikka merkitään
+läpikäydyksi.
+
+GameMap:ssa on kaksi toimintoa: put* ja get*. (*=ImageVector tai Particle).
+GameMap:ssa koko kartta jakaantuu 100:n osaan, joiden sisällöstä huolehtii
+Area-oliot. Kun ImageVector laitetaan kartalle, selvitetään mihin
+Area-olioihin se kuuluu ja laitetaan se sinne. Samoin Particle:n kanssa.  Kun
+taas kutsutaan GetImageVector kaikki annettua pistettä annetulla etäisyydellä
+olevat Area:t käydään läpi ja niistä otetaan niiden sisältävät ImageVector:it.
+
